@@ -28,9 +28,10 @@ def hello_world():
 def searchBans():
     reason = request.args.get('reason')
     cur = get_db().cursor()
-    cur.execute('select * from bans ORDER BY(ban_date) desc limit 5 where reason l ')
+    cur.execute('select * from bans limit 5 where reason l ')
     cur = get_db().cursor()
     return ''
+
 @app.route('/messages')
 def messages():
     cur = get_db().cursor()
