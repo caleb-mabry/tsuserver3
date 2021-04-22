@@ -46,27 +46,24 @@ class Misc_Events(Base):
     event_data = Column(String)
 
 class Ip_Bans(Base):
-    # FILL ME OUT PROPERLY
     __tablename__ = 'ip_bans'
 
-    ipid = Column(Integer)
-    ban_id = Column(Integer)
+    ipid = Column(Integer, primary_key=True)
+    ban_id = Column(Integer, nullable=False)
 
 class Hdid_Bans(Base):
-    # FILL ME OUT PROPERLY
     __tablename__ = 'hdid_bans'
 
-    hdid = Column(Integer)
+    hdid = Column(String, primary_key=True)
     ban_id = Column(Integer)
 
 class Connect_Events(Base):
-    # FILL ME OUT PROPERLY
     __tablename__ = 'connect_events'
 
-    event_time = Column(Integer)
-    ipid = Column(Integer)
-    hdid = Column(Integer)
-    failed = Column(Integer)
+    event_time = Column(DateTime, primary_key=True, default=datetime.datetime.now())
+    ipid = Column(Integer, ForeignKey('ipids.ipid'), nullable=False)
+    hdid = Column(String, nullable=False)
+    failed = Column(Integer, default=0)
 
 
 
@@ -74,61 +71,65 @@ class Hdids(Base):
     # FILL ME OUT PROPERLY
     __tablename__ = 'hdids'
 
-    hdid = Column(Integer)
-    ipid = Column(Integer)
+    hdid = Column(String, primary_key=True)
+    ipid = Column(
+        Integer,
+        ForeignKey('ipids.ipid'),
+        nullable=False
+        )
 
 class IC_Events(Base):
     # FILL ME OUT PROPERLY
     __tablename__ = 'ic_events'
 
-    event_time = Column(Integer)
-    ipid = Column(Integer)
-    room_name = Column(Integer)
-    ic_name = Column(Integer)
-    message = Column(Integer)
+    event_time = Column(DateTime, primary_key=True, default=datetime.datetime.now())
+    ipid = Column(Integer, ForeignKey('ipids.ipid'), nullable=False)
+    room_name = Column(String)
+    ic_name = Column(String)
+    message = Column(String, nullable=False)
 
 class Area(Base):
     # FILL ME OUT PROPERLY
     __tablename__ = 'area'
 
-    id = Column(Integer)
-    name = Column(Integer)
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
 
 class Login_Events(Base):
     # FILL ME OUT PROPERLY
     __tablename__ = 'login_events'
 
-    event_time = Column(Integer)
-    ipid = Column(Integer)
-    profile_name = Column(Integer)
+    event_time = Column(DateTime, primary_key=True, default=datetime.datetime.now())
+    ipid = Column(Integer, ForeignKey('ipids.ipid'), nullable=False)
+    profile_name = Column(String)
 
 class Room_Events(Base):
     # FILL ME OUT PROPERLY
     __tablename__ = 'room_events'
 
-    event_id = Column(Integer)
-    event_time = Column(Integer)
-    ipid = Column(Integer)
+    # event_id = Column(Integer)
+    event_time = Column(DateTime, primary_key=True, default=datetime.datetime.now())
+    ipid = Column(Integer, ForeignKey('ipids.ipid'), nullable=False)
     target_ipid = Column(Integer)
-    room_name = Column(Integer)
-    char_name = Column(Integer)
-    ooc_name = Column(Integer)
-    event_subtype = Column(Integer)
-    message = Column(Integer)
+    room_name = Column(String)
+    char_name = Column(String)
+    ooc_name = Column(String)
+    event_subtype = Column(Integer, ForeignKey('room_event_types.type_id'), nullable=False)
+    message = Column(String)
 
 class Room_Event_Types(Base):
     # FILL ME OUT PROPERLY
     __tablename__ = 'room_event_types'
 
-    type_id = Column(Integer)
-    type_name = Column(Integer)
+    type_id = Column(Integer, primary_key=True)
+    type_name = Column(String, nullable=False)
 
 class Bans(Base):
     # FILL ME OUT PROPERLY
      __tablename__ = 'bans'
 
      ban_id = Column(Integer, primary_key=True)
-     ban_date = Column(DateTime)
+     ban_date = Column(DateTime, default=datetime.datetime.now())
      unban_date = Column(DateTime)
      banned_by = Column(Integer)
      reason = Column(String)
